@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <Link rel="stylesheet" href="index4.css">
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter the city name" spellcheck="false" id="text">
+            <button><img src="q.jpg" alt="oops" id="q"></button>
+            
+        </div>
+        <div class="weather">
+            <img src="sunnyu.png" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Patna</h2>
+
+        </div>
+        <div class="info">
+            <div class="wind">
+            <img src="windu.png" class="windy">
+            <p id="w">15 Km/hr</p>
+            <h3 id="win">wind speed</h3>
+        </div>
+        <div class="humidity">
+            <div class="humidity">
+                <img src="humidityu.png" class="humid">
+                <p id="h">60%</p>
+                <h3 id="hum">humidity</h3>
+            </div>
+        </div>
+
+        </div>
+    </div>
+    <script>
+        var btn= document.querySelector("#q");
+        var text= document.querySelector("#text");
+        var weather_icon=document.querySelector(".weather-icon")
+
+        const apikey="7415e4a6be605a052ab9bd2edd8ddec2";
+        const apiUrl="https://api.openweathermap.org/data/2.5/weather?&units=metric";
+        const city=text.value;
+        
+        
+        async function cheakweather(city){
+            const response= await fetch(apiUrl+ `&appid=${apikey}` +`&q=${city}`);
+            var data= await response.json();
+            
+
+            console.log(data);
+            var temp= data.main.temp;
+            
+            document.querySelector(".temp").innerHTML=Math.round(temp)+"°C";
+            document.querySelector(".city").innerHTML=`${data.name}`
+            document.querySelector("#h").innerHTML=`${data.main.humidity}%`;
+            document.querySelector('#w').innerHTML=`${data.wind.speed} Km/hr`;
+            if(data.weather[0].main=="Haze")
+            {
+                weather_icon.src="hazeU.png"
+            }
+            else if(data.weather[0].main == "Clouds")
+            {
+                weather_icon.src="cloudy.png"
+
+
+            }
+            else if(data.weather[0].main=="Mist")
+            {
+                weather_icon.src="mistU.png"
+            }
+            else if(data.weather[0].main=="Rain")
+            {
+                weather_icon.src="rainU.png"
+            }
+            else if(data.weather[0].main=="Clear")
+            {
+                weather_icon.src="sunnyu.png"
+            }
+
+        }
+         btn.addEventListener('click',()=>{
+            cheakweather(text.value);
+         })
+
+        
+
+
+
+
+    </script>
+</body>
+</html>
